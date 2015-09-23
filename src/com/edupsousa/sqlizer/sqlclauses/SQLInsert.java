@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.edupsousa.sqlizer.util.IncompleteQueryException;
 import com.edupsousa.sqlizer.util.QuerySetter;
+import com.edupsousa.sqlizer.util.QuerySetterFieldsValuesSql;
 
 
 public class SQLInsert {
@@ -39,10 +40,12 @@ public class SQLInsert {
 	
 	@Override
 	public String toString() {
+		
 		if (into == null || querySet.size() == 0)
 			throw new IncompleteQueryException("A consulta SQLInsert deve especificar a tabela de destino e ao menos 1 campo");
 		
-		String sql = "INSERT INTO " + into + " " + querySet.getFieldValuesSql(); 
+		querySet.setSqlMethod(new QuerySetterFieldsValuesSql());
+		String sql = "INSERT INTO " + into + " " + querySet.getSql(); 
 		
 		return sql + ";";
 	}
